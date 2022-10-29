@@ -1,8 +1,8 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Highlight from "./ui/Highlight";
 
-export default function Highlights() {
+const Highlights = () => {
   return (
     <section id="highlights">
       <div className="container">
@@ -13,22 +13,24 @@ export default function Highlights() {
           <div className="highlight__wrapper">
             <Highlight
               icon={<FontAwesomeIcon icon="bolt" />}
-              subtitle={"Easy and quick"}
-              para={"Get access to the book you purhcased online instantly."}
-            ></Highlight>
+              title="Easy and Quick"
+              para="Get access to the book you purchased online instantly."
+            />
             <Highlight
               icon={<FontAwesomeIcon icon="book-open" />}
-              subtitle={"10,000+ Books"}
-              para={"Library has books in all your favourite catagories!"}
-            ></Highlight>
+              title="10,000+ Books"
+              para="Library has books in all your favourite categories."
+            />
             <Highlight
               icon={<FontAwesomeIcon icon="tags" />}
-              subtitle={"Affordable"}
-              para={"Get your hands on the books for as little as £10"}
-            ></Highlight>
+              title="Affordable"
+              para="Get your hands on popular books for as little as $10."
+            />
           </div>
         </div>
       </div>
     </section>
   );
-}
+};
+
+export default Highlights;

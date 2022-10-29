@@ -1,10 +1,7 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect } from "react";
-import { useRef } from "react";
-import { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import Price from "./Price";
-import Rating from "./Rating";
+import Price from "./ui/Price";
+import Ratings from "./ui/Ratings";
 
 const Book = ({ book }) => {
   const [img, setImg] = useState();
@@ -49,7 +46,7 @@ const Book = ({ book }) => {
               {book.title}
             </Link>
           </div>
-          <Rating rating={book.rating} />
+          <Ratings rating={book.rating} />
           <Price
             originalPrice={book.originalPrice}
             salePrice={book.salePrice}
