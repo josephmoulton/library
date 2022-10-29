@@ -1,6 +1,20 @@
-import React from "react";
+import { faBookAtlas } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import emptyCart from "../assets/empty_cart.svg";
 
-export default function Cart({cart}) {
+export default function Cart({ cart, changeQuantity, removeItem }) {
+  const total = () => {
+    let price = 0;
+    cart.forEach((item) => {
+      price += +(
+        (item.salePrice || item.originalPrice) * item.quantity
+      ).toFixed(2);
+    });
+    return price;
+  };
+
   return (
     <div id="books__body">
       <main id="books__main">
@@ -26,9 +40,20 @@ export default function Cart({cart}) {
                           className="cart__book--img"
                         />
                         <div className="cart__book--info">
-                          <span className="cart__book--title">{book.title}</span>
-                          <span className="cart__book--price">£{(book.salePrice || book.originalPrice).toFixed(2)}</span>
-                          <button className="cart__book--remove">Remove</button>
+                          <span className="cart__book--title">
+                            {book.title}
+                          </span>
+                          <span className="cart__book--price">
+                            £{(book.salePrice || book.originalPrice).toFixed(2)}
+                          </span>
+                          <button
+                            className="cart__book--remove"
+                            onClick={() => {
+                              removeItem(book);
+                            }}
+                          >
+                            Remove
+                          </button>
                         </div>
                       </div>
                       <div className="cart__quantity">
@@ -36,35 +61,55 @@ export default function Cart({cart}) {
                           type="number"
                           min={0}
                           max={99}
+                          onChange={(event) =>
+                            changeQuantity(book, event.target.value)
+                          }
+                          value={book.quantity}
                           className="cart__input"
                         />
                       </div>
-                      <div className="cart__total">£10</div>
+                      <div className="cart__total">
+                        £
+                        {(
+                          (book.salePrice || book.originalPrice) * book.quantity
+                        ).toFixed(2)}
+                      </div>
                     </div>
                   );
                 })}
               </div>
+              {cart.length === 0 && (
+                <div className="cart__empty">
+                  <img src={emptyCart} alt="" className="cart__empty--img" />
+                  <h2>You don't have any books in your cart!</h2>
+                  <Link to="/books">
+                    <button className="btn">Browse Books</button>
+                  </Link>
+                </div>
+              )}
             </div>
-            <div className="total">
-              <div className="total__item total__subtotal">
-                <span>Subtotal</span>
-                <span>£10</span>
+            {cart.length > 0 && (
+              <div className="total">
+                <div className="total__item total__subtotal">
+                  <span>Subtotal</span>
+                  <span>£{(total() * 0.9).toFixed(2)}</span>
+                </div>
+                <div className="total__item total__tax">
+                  <span>Tax</span>
+                  <span>£{(total() * 0.1).toFixed(2)}</span>
+                </div>
+                <div className="total__item total__price">
+                  <span>Total</span>
+                  <span>£{total().toFixed(2)}</span>
+                </div>
+                <button
+                  className="btn btn__checkout no-cursor"
+                  onClick={() => alert("Not Implemented Yet")}
+                >
+                  Proceed To Checkout
+                </button>
               </div>
-              <div className="total__item total__tax">
-                <span>Tax</span>
-                <span>£1</span>
-              </div>
-              <div className="total__item total__price">
-                <span>Total</span>
-                <span>£11</span>
-              </div>
-              <button
-                className="btn btn__checkout no-cursor"
-                onClick={() => alert("Not Implemented Yet")}
-              >
-                Proceed To Checkout
-              </button>
-            </div>
+            )}
           </div>
         </div>
       </main>
